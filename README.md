@@ -8,10 +8,6 @@ A small SvelteKit project allowing me to showcase my skills to District Cinema b
 2. [Design Choices](#design-choices)
 3. [Setup Instructions](#setup-instructions)
 4. [Code Structure](#code-structure)
-5. [Design Decisions and Assumptions](#design-decisions-and-assumptions)
-6. [Technologies Used](#technologies-used)
-7. [Contributing](#contributing)
-8. [License](#license)
 
 ## Live Application
 
@@ -20,14 +16,12 @@ You can view the live application here: [Live Demo](https://dc-sample-project.ve
 ## Design Choices
 
 - **Svelte Store**: When researching Svelte stores, I came across [this documentation page](https://svelte.dev/docs/svelte/stores#When-to-use-stores) stating **"Prior to Svelte 5, stores were the go-to solution for creating cross-component reactive states or extracting logic. With runes, these use cases have greatly diminished."** I followed the docs and created a what is essentially a store in /src/lib/state.svelte.ts, exporting a variable using the **$state** rune.
-- **Reused Components**: As I like to do in React, I identified reusable pieces of layout code and separated them into components.
+- **Reused Components**: I identified reusable pieces of layout code and separated them into components.
 - **Header**: I created a Header component and included it in the root layout so it would appear on every page.
-- **Forms**: I decided to separate all forms with visible inputs to separate pages.
+- **Forms**: I decided to separate all forms with visible inputs to separate pages for cleaner UX.
 - **Form Actions**: As directed by the [SvelteKit docs](https://svelte.dev/docs/kit/form-actions#Alternatives), I used Form Actions for client to server communication wherever possible, which, in such a small and simple project, turned out to be everywhere.
 
 ## Setup Instructions
-
-### Installation
 
 1. Clone the repository:
    ```bash
@@ -54,3 +48,7 @@ You can view the live application here: [Live Demo](https://dc-sample-project.ve
    npm run dev
    ```
 5. Open the application: Visit `http://localhost:5173/` in your browser.
+
+## Code Structure
+
+.
