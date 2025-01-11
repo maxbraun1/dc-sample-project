@@ -28,23 +28,23 @@
 		return filtered;
 	});
 
-	const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY);
-	const channel = supabase
-		.channel('table_db_changes')
-		.on(
-			'postgres_changes',
-			{
-				event: '*',
-				schema: 'public',
-				table: 'products'
-			},
-			(payload) => {
-				console.log(payload);
-			}
-		)
-		.subscribe();
+	// const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY);
+	// const channel = supabase
+	// 	.channel('table_db_changes')
+	// 	.on(
+	// 		'postgres_changes',
+	// 		{
+	// 			event: '*',
+	// 			schema: 'public',
+	// 			table: 'products'
+	// 		},
+	// 		(payload) => {
+	// 			console.log(payload);
+	// 		}
+	// 	)
+	// 	.subscribe();
 
-	$inspect(filter);
+	// $inspect(filter);
 </script>
 
 <div class="mb-5 flex items-center justify-between">
