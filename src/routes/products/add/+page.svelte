@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 </script>
 
 <h1 class="mb-3 text-2xl font-bold">Add Product</h1>
-<form method="POST" class="w-full max-w-xs space-y-2 rounded border p-3">
+<form method="POST" class="w-full max-w-xs space-y-2 rounded border p-3" use:enhance>
 	<div>
 		<label for="name"> Name </label>
 		<input name="name" type="text" placeholder="Ex: Wood Desk" />
