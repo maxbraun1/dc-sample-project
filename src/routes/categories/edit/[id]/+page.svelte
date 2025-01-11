@@ -6,7 +6,7 @@
 </script>
 
 <h1 class="mb-3 text-2xl font-bold">Edit Category</h1>
-<form method="POST" class="w-full max-w-xs rounded border p-3" use:enhance>
+<form method="POST" class="w-full rounded border p-3 sm:max-w-xs" use:enhance>
 	<input name="id" type="text" value={data.category.id} class="hidden" />
 	<label for="name"> Edit Category Name </label>
 	<input name="name" type="text" value={data.category.name} placeholder="Ex: Electronics" />

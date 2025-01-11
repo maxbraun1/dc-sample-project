@@ -3,7 +3,7 @@
 </script>
 
 <h1 class="mb-3 text-2xl font-bold">Add Category</h1>
-<form method="POST" class="w-full max-w-xs space-y-2 rounded border p-3" use:enhance>
+<form method="POST" class="w-full space-y-2 rounded border p-3 sm:max-w-xs" use:enhance>
 	<label for="name"> Category Name </label>
 	<input name="name" type="text" placeholder="Ex: Electronics" />
 	<button

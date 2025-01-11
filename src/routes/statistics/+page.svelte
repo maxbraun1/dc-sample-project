@@ -6,7 +6,7 @@
 
 <h1 class="mb-3 text-2xl font-bold">Statistics</h1>
 
-<table class="table-fixed">
+<table class="w-full table-fixed md:w-auto">
 	<tbody>
 		<tr>
 			<th>Category Name</th>

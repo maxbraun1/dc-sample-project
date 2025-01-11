@@ -86,11 +86,13 @@
 		.subscribe();
 </script>
 
-<div class="mb-5 flex items-center justify-between">
-	<h1 class="text-2xl font-bold">Products</h1>
-	<div class="flex items-center gap-4">
-		<input type="text" bind:value={searchTerm} placeholder="Search" />
-		<select bind:value={filter}>
+<div class="mb-5 flex flex-col items-start justify-between md:flex-row md:items-center">
+	<h1 class="text-3xl font-bold md:text-2xl">Products</h1>
+	<div
+		class="mt-3 flex w-full flex-col items-start gap-4 md:mt-0 md:w-fit md:flex-row md:items-center"
+	>
+		<input type="text" bind:value={searchTerm} placeholder="Search" class="w-full" />
+		<select bind:value={filter} class="w-full">
 			<option value={null} selected>No Filter</option>
 			{#each data.categories as category}
 				<option value={category.id}>{category.name}</option>
@@ -102,7 +104,7 @@
 		>
 	</div>
 </div>
-<div class="grid grid-cols-3 gap-3">
+<div class="grid grid-cols-1 gap-3 md:grid-cols-3">
 	{#each products as product}
 		<Product
 			name={product.productName}
