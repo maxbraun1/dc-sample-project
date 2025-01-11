@@ -3,12 +3,16 @@ import { categories, products } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { getCategories } from '$lib/util';
+import { fail } from '@sveltejs/kit';
 
 export const actions = {
 	default: async (event) => {
+		// Delete product
 		const formData = await event.request.formData();
 
 		const id = formData.get('id') || '';
+
+		if (!id) return fail(400);
 
 		await db.delete(products).where(eq(products.id, id.toString()));
 	}
@@ -28,6 +32,5 @@ export const load: PageServerLoad = async () => {
 
 	const allCategories = await getCategories();
 
-	console.log(productsWithCategory);
 	return { products: productsWithCategory, categories: allCategories };
 };

@@ -1,24 +1,25 @@
 import { db } from '$lib/server/db';
 import { categories } from '$lib/server/db/schema';
-import { getCategoryById } from '$lib/util';
 import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
-	const category = await getCategoryById(params.id);
-	return { category };
+	const category = await db.select().from(categories).where(eq(categories.id, params.id));
+	return { category: category[0] };
 };
 
 export const actions = {
 	default: async (event) => {
+		// Update a category
 		const formData = await event.request.formData();
 
 		const categoryId = formData.get('id') || '';
 		const categoryName = formData.get('name') || '';
 
-		// console.log('Category ID', categoryId);
-		// console.log('Category Name', categoryName);
+		// Validation
+		if (!categoryId) return fail(400);
+		if (categoryName.toString().length < 1) return fail(400);
 
 		await db
 			.update(categories)

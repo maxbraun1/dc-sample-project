@@ -1,10 +1,11 @@
 import { db } from '$lib/server/db';
 import { categories, products } from '$lib/server/db/schema';
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const actions = {
 	default: async (event) => {
+		// Add a product
 		const formData = await event.request.formData();
 
 		const productName = formData.get('name') || '';
@@ -12,7 +13,7 @@ export const actions = {
 		const productCategory = formData.get('category');
 
 		// Validation
-		if (productName.toString().length < 1) return;
+		if (productName.toString().length < 1) return fail(400);
 
 		await db.insert(products).values({
 			name: productName.toString(),

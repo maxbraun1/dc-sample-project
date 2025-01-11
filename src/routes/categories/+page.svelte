@@ -2,9 +2,11 @@
 	import Category from '$lib/components/Category.svelte';
 	import { Plus } from 'lucide-svelte';
 	import type { PageData } from './$types';
+	import { categoriesStore } from '$lib/state.svelte';
 
 	let { data }: { data: PageData } = $props();
 	let editingPostId: null | string = $state(null);
+	categoriesStore.categories = data.categories;
 
 	$inspect(editingPostId);
 </script>

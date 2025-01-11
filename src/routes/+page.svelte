@@ -2,18 +2,24 @@
 	import Product from '$lib/components/Product.svelte';
 	import { Plus } from 'lucide-svelte';
 	import type { PageData } from './$types';
+	import { createClient } from '@supabase/supabase-js';
+	import { PUBLIC_SUPABASE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
+	import { categoriesStore } from '$lib/state.svelte';
 
 	let { data }: { data: PageData } = $props();
 	let filter = $state(null);
 	let searchTerm = $state('');
-	let products = $derived(data.products);
+	let unfilteredProducts = $state(data.products);
+	categoriesStore.categories = data.categories;
 
-	let filteredProducts = $derived.by(() => {
-		if (!searchTerm && !filter) return null;
+	// Product search and filtering
+	let products = $derived.by(() => {
+		// Filters products by filter and search term and returns filtered products
+		if (!searchTerm && !filter) return unfilteredProducts;
 
-		let filtered = products;
+		let filtered = unfilteredProducts;
 		if (searchTerm) {
-			filtered = products.filter((product) =>
+			filtered = filtered.filter((product) =>
 				product.productName.toLowerCase().includes(searchTerm.toLowerCase())
 			);
 		}
@@ -24,23 +30,60 @@
 		return filtered;
 	});
 
-	// const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY);
-	// const channel = supabase
-	// 	.channel('table_db_changes')
-	// 	.on(
-	// 		'postgres_changes',
-	// 		{
-	// 			event: '*',
-	// 			schema: 'public',
-	// 			table: 'products'
-	// 		},
-	// 		(payload) => {
-	// 			console.log(payload);
-	// 		}
-	// 	)
-	// 	.subscribe();
-
-	// $inspect(filter);
+	// Live product updates
+	const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY);
+	supabase
+		.channel('table_db_changes')
+		.on(
+			'postgres_changes',
+			{
+				event: '*',
+				schema: 'public',
+				table: 'products'
+			},
+			(payload) => {
+				// Performs action based on type of update (INSERT, UPDATE, or DELETE)
+				if (payload.eventType === 'DELETE') {
+					// Removes deleted product from unfilteredProducts
+					unfilteredProducts = unfilteredProducts.filter(
+						(product) => product.productId !== payload.old.id
+					);
+				} else if (payload.eventType === 'INSERT') {
+					// Gets category name and adds new product to unfilteredProducts
+					if (categoriesStore.categories) {
+						const categoryName = categoriesStore.categories.find(
+							(category) => category.id === payload.new.category_id
+						);
+						const newProduct = {
+							productId: payload.new.id,
+							productName: payload.new.name,
+							productPrice: payload.new.price,
+							categoryId: payload.new.category_id,
+							categoryName: categoryName?.name || 'Uncategorized'
+						};
+						unfilteredProducts.push(newProduct);
+					}
+				} else if (payload.eventType === 'UPDATE') {
+					// Gets category name and updates product info in unfilteredProducts
+					if (categoriesStore.categories) {
+						const categoryName = categoriesStore.categories.find(
+							(category) => category.id === payload.new.category_id
+						);
+						const productIndex = unfilteredProducts.findIndex(
+							(product) => product.productId === payload.old.id
+						);
+						unfilteredProducts[productIndex] = {
+							productId: payload.new.id,
+							productName: payload.new.name,
+							productPrice: payload.new.price,
+							categoryId: payload.new.category_id,
+							categoryName: categoryName?.name || 'Uncategorized'
+						};
+					}
+				}
+			}
+		)
+		.subscribe();
 </script>
 
 <div class="mb-5 flex items-center justify-between">
@@ -60,23 +103,12 @@
 	</div>
 </div>
 <div class="grid grid-cols-3 gap-3">
-	{#if filteredProducts === null}
-		{#each products as product}
-			<Product
-				name={product.productName}
-				price={product.productPrice}
-				categoryName={product.categoryName}
-				productId={product.productId}
-			/>
-		{/each}
-	{:else}
-		{#each filteredProducts as product}
-			<Product
-				name={product.productName}
-				price={product.productPrice}
-				categoryName={product.categoryName}
-				productId={product.productId}
-			/>
-		{/each}
-	{/if}
+	{#each products as product}
+		<Product
+			name={product.productName}
+			price={product.productPrice}
+			categoryName={product.categoryName}
+			productId={product.productId}
+		/>
+	{/each}
 </div>

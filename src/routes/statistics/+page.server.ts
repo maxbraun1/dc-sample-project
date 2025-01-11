@@ -5,7 +5,6 @@ import type { PageServerLoad } from '../$types';
 
 export const load: PageServerLoad = async () => {
 	const product = await db.select({ count: count() }).from(products);
-	console.log(product);
 	const categoryCounts = await db
 		.select({ count: count(), categoryName: categories.name })
 		.from(products)

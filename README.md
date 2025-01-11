@@ -1,38 +1,56 @@
-# sv
+# District Cinema Sample Project
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A small SvelteKit project allowing me to showcase my skills to District Cinema by creating a demo application from scratch, using tools similar to those in their deployment.
 
-## Creating a project
+## Table of Contents
 
-If you're seeing this, you've probably already done this step. Congrats!
+1. [Live Application](#live-application)
+2. [Design Choices](#design-choices)
+3. [Setup Instructions](#setup-instructions)
+4. [Code Structure](#code-structure)
+5. [Design Decisions and Assumptions](#design-decisions-and-assumptions)
+6. [Technologies Used](#technologies-used)
+7. [Contributing](#contributing)
+8. [License](#license)
 
-```bash
-# create a new project in the current directory
-npx sv create
+## Live Application
 
-# create a new project in my-app
-npx sv create my-app
-```
+You can view the live application here: [Live Demo](https://dc-sample-project.vercel.app/)
 
-## Developing
+## Design Choices
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- **Svelte Store**: When researching Svelte stores, I came across [this documentation page](https://svelte.dev/docs/svelte/stores#When-to-use-stores) stating **"Prior to Svelte 5, stores were the go-to solution for creating cross-component reactive states or extracting logic. With runes, these use cases have greatly diminished."** I followed the docs and created a what is essentially a store in /src/lib/state.svelte.ts, exporting a variable using the **$state** rune.
+- **Reused Components**: As I like to do in React, I identified reusable pieces of layout code and separated them into components.
+- **Header**: I created a Header component and included it in the root layout so it would appear on every page.
+- **Forms**: I decided to separate all forms with visible inputs to separate pages.
+- **Form Actions**: As directed by the [SvelteKit docs](https://svelte.dev/docs/kit/form-actions#Alternatives), I used Form Actions for client to server communication wherever possible, which, in such a small and simple project, turned out to be everywhere.
 
-```bash
-npm run dev
+## Setup Instructions
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+### Installation
 
-## Building
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/maxbraun1/dc-sample-project.git
+   cd dc-sample-project
+   ```
+2. Install Dependencies:
+   ```bash
+   npm install
+   ```
+3. Set Environment Variables:
 
-To create a production version of your app:
+- Create a `.env` file in the root directory.
+- Add the following variables:
 
-```bash
-npm run build
-```
+  ```bash
+  DATABASE_URL=supabase-db-connection-url
+  PUBLIC_SUPABASE_URL=supabase-url
+  PUBLIC_SUPABASE_KEY=supabase-key
+  ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+4. Run the application:
+   ```bash
+   npm run dev
+   ```
+5. Open the application: Visit `http://localhost:5173/` in your browser.
