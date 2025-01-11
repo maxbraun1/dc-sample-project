@@ -13,7 +13,7 @@
 			class="block w-fit rounded bg-blue-800 px-2 py-1 text-sm text-white hover:bg-blue-900"
 			href={'/products/edit/' + productId}>Edit</a
 		>
-		<form method="POST" action="?/delete" use:enhance>
+		<form method="POST" action="/" use:enhance>
 			<input name="id" type="text" value={productId} class="hidden" />
 			<button class="rounded bg-blue-800 px-2 py-1 text-sm text-white hover:bg-blue-900"
 				>Delete</button

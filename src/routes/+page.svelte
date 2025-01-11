@@ -2,15 +2,11 @@
 	import Product from '$lib/components/Product.svelte';
 	import { Plus } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import { PUBLIC_SUPABASE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
-	import { createClient } from '@supabase/supabase-js';
-	import { invalidateAll } from '$app/navigation';
-	import { browser } from '$app/environment';
 
 	let { data }: { data: PageData } = $props();
 	let filter = $state(null);
 	let searchTerm = $state('');
-	let products = $state(data.products);
+	let products = $derived(data.products);
 
 	let filteredProducts = $derived.by(() => {
 		if (!searchTerm && !filter) return null;

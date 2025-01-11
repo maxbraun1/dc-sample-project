@@ -5,7 +5,7 @@ import type { PageServerLoad } from './$types';
 import { getCategories } from '$lib/util';
 
 export const actions = {
-	delete: async (event) => {
+	default: async (event) => {
 		const formData = await event.request.formData();
 
 		const id = formData.get('id') || '';
