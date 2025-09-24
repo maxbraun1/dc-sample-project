@@ -4,14 +4,9 @@ A small SvelteKit project allowing me to showcase my skills to District Cinema b
 
 ## Table of Contents
 
-1. [Live Application](#live-application)
-2. [Setup Instructions](#setup-instructions)
-3. [Code Structure](#code-structure)
-4. [Design Choices](#design-choices)
-
-## Live Application
-
-You can view the live application here: [Live Demo](https://dc-sample-project.vercel.app/)
+1. [Setup Instructions](#setup-instructions)
+2. [Code Structure](#code-structure)
+3. [Design Choices](#design-choices)
 
 ## Setup Instructions
 
